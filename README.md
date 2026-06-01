@@ -1,87 +1,57 @@
 # Placement Preparation Web Application
 
-A full-stack web application developed using Python Flask, HTML, CSS, JavaScript, and SQLite to help students prepare for campus placements. The platform provides structured preparation resources, company-specific information, and role-based learning roadmaps through a modern and user-friendly interface.
+A full-stack, AI-styled web application built with Python Flask, HTML, CSS, and SQLite for students to prepare for upcoming campus placements.
 
 ## Features
-
-* Secure Login and Signup System using Flask Sessions and SQLite
-* Interactive Dashboard with a modern UI
-* Aptitude Preparation Module
-* Logical Reasoning Resources
-* Coding Practice Guidance
-* Communication Skills Preparation
-* Department-wise Company Listings
-* Categorized Recruiters (Top, Mid-Level, and Mass Recruiters)
-* Role-Based Learning Roadmaps
-* Career-Oriented Skill Recommendations
-
-## Technologies Used
-
-* Python
-* Flask
-* HTML5
-* CSS3
-* JavaScript
-* SQLite
+- **Authentication**: Secure Login and Signup functionality using Flask Sessions and SQLite.
+- **Modern Dashboard**: A sleek dark theme with a glassmorphism (AI-style) design.
+- **Preparation Modules**: Resources strictly structured for Aptitude, Logical Reasoning, Coding, and Communication.
+- **Department & Company Module**: Segregated company listings (Top, Mid, Mass Recruiters) based on your department.
+- **Role-Based Roadmaps**: Specialized skill requirement mapping and step-by-step learning roadmaps for designated job roles.
 
 ## Project Structure
-
 ```text
-placement-app/
+placement app/
 │
-├── app.py
-├── data.py
-├── placement_app.db
-│
+├── app.py                  # Main Flask application and routing logic
+├── data.py                 # Structured static dictionaries mock DB for Companies & Roles
+├── placement_app.db        # SQLite database handling user authentication (Auto-generated)
 ├── static/
-│   ├── style.css
-│   └── script.js
-│
+│   ├── style.css           # Global stylesheet with modern CSS tokens & themes
+│   └── script.js           # Client-side transitions and interactivity
 └── templates/
-    ├── base.html
-    ├── login.html
-    ├── signup.html
-    ├── dashboard.html
-    ├── department.html
-    ├── company.html
-    └── role.html
+    ├── base.html           # Main template scaffolding
+    ├── login.html          # Authentication 
+    ├── signup.html         # Registration
+    ├── dashboard.html      # Central Hub
+    ├── department.html     # Companies list via category
+    ├── company.html        # Profile details & roles
+    └── role.html           # Specific roadmap, skills and external links
 ```
 
-## Installation
+## How to Run the App Locally
 
-### Prerequisites
-
-* Python 3.x
-* Flask
-
-### Install Dependencies
-
+### 1. Prerequisites
+Make sure you have Python 3.x installed on your operating system.
+You will need to install **Flask** and **Werkzeug**. Open your terminal/command prompt and run:
 ```bash
 pip install Flask Werkzeug
 ```
 
-### Run the Application
-
+### 2. Running the Server
+Navigate to the project directory in your terminal and execute:
 ```bash
 python app.py
 ```
+*Note: The script will automatically trigger the creation of `placement_app.db` if it does not already exist.*
 
-## Access the Application
-
-Open your browser and visit:
-
+### 3. Accessing the Application
+Once the server initializes, you should see an output on your terminal stating that it is running on a localized domain.
+Open your favorite web browser and navigate to:
 ```text
 http://127.0.0.1:5000/
 ```
 
-## Future Enhancements
-
-* AI-powered interview assistance
-* Resume analysis and feedback
-* Mock aptitude tests
-* Progress tracking dashboard
-* Company-wise interview experiences
-
-## Author
-
-Harsha D, Jeevalakshmi V
+- Click on **Sign Up Free** to register an account.
+- **Log In** to get directed to your customized dashboard.
+- Select your department (e.g. ECE) to view matching companies and navigate down to the tailored roadmaps!
