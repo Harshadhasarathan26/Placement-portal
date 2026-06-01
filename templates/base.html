@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Placement Prep AI{% endblock %}</title>
+    <!-- Modern Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Global Style -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="glass-nav">
+        <a href="{{ url_for('index') }}" class="nav-brand">
+            <i class="fas fa-rocket glowing-icon"></i> PrepAI
+        </a>
+        <div class="nav-links">
+            {% if session.get('user_id') %}
+                <a href="{{ url_for('dashboard') }}"><i class="fas fa-chart-line"></i> Dashboard</a>
+                <a href="{{ url_for('logout') }}" class="btn-outline"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('signup') }}" class="btn-primary">Sign Up Free</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Display Flash Messages (errors/success states) -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="flash-msg flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <!-- Main Workspace blocks here -->
+        {% block content %}{% endblock %}
+    </div>
+    
+    <!-- Script Logic -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

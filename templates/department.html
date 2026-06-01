@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Explore {{ dept }} Companies | Placement Prep AI{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 2rem;">
+    <a href="{{ url_for('dashboard') }}" class="btn-outline" style="font-size: 0.9rem;">
+        <i class="fas fa-arrow-left"></i> Hub
+    </a>
+</div>
+
+<div class="welcome-header" style="text-align: left; margin-bottom: 2rem;">
+    <h1 style="font-size: 2.5rem;"><i class="fas fa-microchip"></i> {{ dept }} Department</h1>
+    <p>Explore all available placement tiers for your branch below.</p>
+</div>
+
+<!-- Loop through dictionaries to segment companies via tiers -->
+{% for category, companies in data.items() %}
+    {% if companies %}
+        <h2 class="category-title"><i class="fas fa-star" style="color: var(--accent); font-size: 1.1rem; margin-right: 0.5rem;"></i>{{ category }}</h2>
+        <div class="grid">
+            {% for company in companies %}
+            <a href="{{ url_for('company', company_id=company.id) }}" style="text-decoration: none;">
+                <div class="glass-card interactive">
+                    <span class="badge">{{ company.domain }}</span>
+                    <h3 class="card-title">{{ company.name }}</h3>
+                    <p class="card-desc" style="height: 45px; overflow: hidden; text-overflow: ellipsis;">{{ company.profile }}</p>
+                    
+                    <div style="margin-top: 1.5rem; color: var(--accent); font-size: 0.95rem; font-weight: 600;">
+                        View details & roles <i class="fas fa-arrow-right" style="margin-left: 0.5rem;"></i>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endfor %}
+
+{% endblock %}

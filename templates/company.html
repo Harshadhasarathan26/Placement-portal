@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}{{ company.name }} | Placement Prep AI{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 2rem;">
+    <!-- Simple backwards navigation -->
+    <button onclick="history.back()" class="btn-outline" style="font-size: 0.9rem;">
+        <i class="fas fa-arrow-left"></i> Back
+    </button>
+</div>
+
+<!-- Primary Company Details Card -->
+<div class="glass-card" style="margin-bottom: 3rem; background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(0,0,0,0.5)); border-left: 4px solid var(--accent);">
+    <span class="badge" style="font-size: 0.9rem;"><i class="fas fa-industry"></i> {{ company.domain }}</span>
+    <h1 style="color: #fff; font-size: 3rem; margin-bottom: 1.5rem; letter-spacing: -1px;">{{ company.name }}</h1>
+    <p style="color: var(--text-muted); font-size: 1.2rem; margin-bottom: 2rem; max-width: 850px; line-height: 1.6;">
+        {{ company.profile }}
+    </p>
+    
+    <a href="{{ company.career_link }}" target="_blank" class="btn-primary" style="font-size: 1.1rem; padding: 0.8rem 1.8rem;">
+        <i class="fas fa-briefcase" style="margin-right: 0.5rem;"></i> Official Career Portal
+    </a>
+</div>
+
+<!-- Available Roles specific to Company -->
+<h2 class="section-title"><i class="fas fa-user-md" style="color: var(--accent);"></i> Available Preparation Roles</h2>
+
+{% if roles %}
+<div class="grid">
+    {% for role in roles %}
+    <a href="{{ url_for('role', role_id=role.id) }}" style="text-decoration: none;">
+        <div class="glass-card interactive">
+            <h3 class="card-title" style="font-size: 1.4rem; margin-bottom: 1rem;">{{ role.name }}</h3>
+            <p class="card-desc">Explore technical skills required, multi-step roadmap, and verified external learning resources.</p>
+            <div style="margin-top: 1.5rem; color: var(--accent); font-size: 0.95rem; font-weight: 600;">
+                Start preparation <i class="fas fa-external-link-square-alt" style="margin-left: 0.5rem;"></i>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% else %}
+<div class="glass-card" style="text-align: center; max-width: 600px; margin: 0 auto; padding: 4rem 2rem;">
+    <i class="fas fa-folder-open" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 1.5rem;"></i>
+    <h3 style="color: #fff; margin-bottom: 0.5rem;">No Specific Roles Mapped</h3>
+    <p style="color: var(--text-muted);">We are working on adding designated roadmap roles for {{ company.name }} soon.</p>
+</div>
+{% endif %}
+
+{% endblock %}

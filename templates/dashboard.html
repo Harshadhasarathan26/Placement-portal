@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | Placement Prep AI{% endblock %}
+
+{% block content %}
+<div class="welcome-header">
+    <h1>Welcome, {{ username }}!</h1>
+    <p>Your personalized placement preparation journey starts here.</p>
+</div>
+
+<!-- Department Selection UI -->
+<h2 class="section-title"><i class="fas fa-building"></i> Explore Companies by Department</h2>
+<div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+    <a href="{{ url_for('departments') }}" style="text-decoration: none;">
+        <div class="glass-card interactive" style="text-align: center; padding: 2rem;">
+            <i class="fas fa-university card-icon" style="font-size: 3rem; margin-bottom: 1rem; color: var(--accent);"></i>
+            <h3 class="card-title" style="font-size: 1.5rem;">Browse All Departments</h3>
+            <p class="card-desc" style="margin-bottom: 0;">Explore Companies, Roles, and Roadmaps for ECE, CSE, IT, EEE, Mechanical</p>
+            <div style="margin-top: 1rem; color: var(--accent); font-size: 1rem; font-weight: 600;">
+                Go to Departments <i class="fas fa-arrow-right"></i>
+            </div>
+        </div>
+    </a>
+</div>
+
+</div>
+
+<!-- Real-time Jobs Section -->
+{% if realtime_jobs %}
+<h2 class="section-title" style="margin-top: 2rem;"><i class="fas fa-satellite-dish"></i> Real-Time Remote Software Openings</h2>
+<div class="grid">
+    {% for job in realtime_jobs %}
+    <div class="glass-card interactive" onclick="window.open('{{ job.url }}', '_blank')" style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                {% if job.company_logo %}
+                <img src="{{ job.company_logo }}" alt="{{ job.company_name }}" style="max-height: 40px; border-radius: 4px; background: white; padding: 2px;">
+                {% else %}
+                <i class="fas fa-building" style="font-size: 2rem; color: var(--text-muted);"></i>
+                {% endif %}
+                <span class="badge" style="margin: 0;">{{ job.job_type | default('Remote') }}</span>
+            </div>
+            <h3 class="card-title">{{ job.title }}</h3>
+            <p class="card-desc" style="font-weight: 600; color: var(--text-main); margin-bottom: 0.5rem;">{{ job.company_name }}</p>
+            <p class="card-desc" style="font-size: 0.85rem;"><i class="fas fa-map-marker-alt"></i> {{ job.candidate_required_location }}</p>
+        </div>
+        <a href="{{ job.url }}" target="_blank" class="btn-outline" style="text-align: center; margin-top: 1rem;">Apply Now <i class="fas fa-external-link-alt" style="font-size: 0.8rem;"></i></a>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<!-- AI Tools -->
+<h2 class="section-title" style="margin-top: 2rem;"><i class="fas fa-robot"></i> AI-Powered Tools</h2>
+<div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+    <a href="{{ url_for('resume_tool') }}" style="text-decoration: none;">
+        <div class="glass-card interactive" style="text-align: center; background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(168, 85, 247, 0.05));">
+            <i class="fas fa-file-signature card-icon" style="background: var(--accent-gradient); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+            <h3 class="card-title">Resume Analyzer</h3>
+            <p class="card-desc" style="margin-bottom: 0;">Get AI evaluation against your target role</p>
+        </div>
+    </a>
+    <div class="glass-card interactive" style="text-align: center; cursor: not-allowed; opacity: 0.7;">
+        <i class="fas fa-user-tie card-icon" style="color: var(--text-muted);"></i>
+        <h3 class="card-title">Mock Interview Evaluator</h3>
+        <p class="card-desc" style="margin-bottom: 0;">(Integrated into Role pages)</p>
+    </div>
+</div>
+
+<h2 class="section-title" style="margin-top: 2rem;"><i class="fas fa-brain"></i> Foundation Preparation Modules</h2>
+<div class="grid">
+    <!-- Aptitude Block -->
+    <div class="glass-card interactive">
+        <i class="fas fa-calculator card-icon"></i>
+        <h3 class="card-title">Aptitude & Math</h3>
+        <p class="card-desc">Quantitative aptitude is a crucial part of the initial screening rounds.</p>
+        <ul class="link-list">
+            <li><a href="https://www.indiabix.com/" target="_blank"><i class="fas fa-external-link-alt"></i> IndiaBix Aptitude</a></li>
+            <li><a href="https://prepinsta.com/aptitude/" target="_blank"><i class="fas fa-external-link-alt"></i> PrepInsta Modules</a></li>
+        </ul>
+    </div>
+
+    <!-- Logical Reasoning Block -->
+    <div class="glass-card interactive">
+        <i class="fas fa-puzzle-piece card-icon"></i>
+        <h3 class="card-title">Logical Reasoning</h3>
+        <p class="card-desc">Enhance your analytical and problem-solving skills for specific tests.</p>
+        <ul class="link-list">
+            <li><a href="https://www.indiabix.com/logical-reasoning/questions-and-answers/" target="_blank"><i class="fas fa-external-link-alt"></i> IndiaBix Logical</a></li>
+            <li><a href="https://www.javatpoint.com/reasoning" target="_blank"><i class="fas fa-external-link-alt"></i> JavaTpoint Reasoning</a></li>
+        </ul>
+    </div>
+
+    <!-- Technical Coding Block -->
+    <div class="glass-card interactive">
+        <i class="fas fa-code card-icon"></i>
+        <h3 class="card-title">Core Coding Skills</h3>
+        <p class="card-desc">Data structures, algorithms, and technical problem-solving.</p>
+        <ul class="link-list">
+            <li><a href="https://leetcode.com/" target="_blank"><i class="fas fa-external-link-alt"></i> LeetCode Hub</a></li>
+            <li><a href="https://www.geeksforgeeks.org/" target="_blank"><i class="fas fa-external-link-alt"></i> GeeksforGeeks DS&A</a></li>
+            <li><a href="https://www.hackerrank.com/" target="_blank"><i class="fas fa-external-link-alt"></i> HackerRank Competitions</a></li>
+        </ul>
+    </div>
+    
+    <!-- Communication Block -->
+    <div class="glass-card interactive">
+        <i class="fas fa-comments card-icon"></i>
+        <h3 class="card-title">Soft Skills & Communication</h3>
+        <p class="card-desc">Verbal ability, professional email etiquette, and group discussion (GD).</p>
+        <ul class="link-list">
+            <li><a href="https://www.indiabix.com/verbal-ability/questions-and-answers/" target="_blank"><i class="fas fa-external-link-alt"></i> Verbal Ability Practice</a></li>
+            <li><a href="https://www.skillsyouneed.com/ips/communication-skills.html" target="_blank"><i class="fas fa-external-link-alt"></i> Professional Comms Guide</a></li>
+        </ul>
+    </div>
+
+    <!-- Interview Soft Rules (Spans full width) -->
+    <div class="glass-card interactive" style="grid-column: 1 / -1; margin-top: 1rem;">
+        <i class="fas fa-user-tie card-icon"></i>
+        <h3 class="card-title">Interview Etiquettes & Guidelines</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 2rem; margin-top: 1.5rem;">
+            <div style="flex: 1; min-width: 250px;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;"><i class="fas fa-tshirt" style="color:var(--text-muted)"></i> Professional Dress Code</h4>
+                <p class="card-desc">Wear formal or business casual attire. Ensure your clothes are well-ironed and you have a neat appearance. Subdued colors like white, light blue, black, or navy work best for initial impressions.</p>
+            </div>
+            <div style="flex: 1; min-width: 250px;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;"><i class="fas fa-walking" style="color:var(--text-muted)"></i> Strong Body Language</h4>
+                <p class="card-desc">Maintain eye contact without staring. Sit up straight and avoid slouching. Use hand gestures moderately and greet the interviewer with a firm handshake (in-person) or confident vocal greeting (online).</p>
+            </div>
+            <div style="flex: 1; min-width: 250px;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;"><i class="fas fa-clipboard-list" style="color:var(--text-muted)"></i> General Instructions</h4>
+                <p class="card-desc">Research the company heavily beforehand. Prepare examples that highlight your skills using the STAR method (Situation, Task, Action, Result). Be honest when answering and arrive 10 minutes early.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

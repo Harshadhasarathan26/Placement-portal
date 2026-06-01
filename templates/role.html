@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}{{ role.name }} | Placement Prep AI{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 2rem;">
+    <!-- Simple backwards navigation -->
+    <button onclick="history.back()" class="btn-outline" style="font-size: 0.9rem;">
+        <i class="fas fa-arrow-left"></i> Back to Roles
+    </button>
+</div>
+
+<div class="glass-card" style="padding: 3rem;">
+    <h1 style="color: #fff; font-size: 2.8rem; margin-bottom: 2rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 1.5rem;">
+        <i class="fas fa-chalkboard-teacher" style="color: var(--accent); margin-right: 1rem;"></i>{{ role.name }} Roadmap
+    </h1>
+    
+    <!-- Core Skills Array -->
+    <h3 class="card-title" style="margin-bottom: 1rem; font-size: 1.4rem;">
+        <i class="fas fa-tools" style="color: var(--accent); margin-right: 0.5rem;"></i> Core Required Skills
+    </h3>
+    <div class="skills-container" style="margin-bottom: 3rem;">
+        {% for skill in role.skills %}
+            <div class="skill-tag">
+                <i class="fas fa-check-circle" style="color: #00f2fe; margin-right: 0.4rem; font-size: 0.8rem;"></i> {{ skill }}
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Layout Grid -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 3rem; margin-top: 2rem;">
+        
+        <!-- Ordered Roadmap List -->
+        <div>
+            <h3 class="card-title" style="margin-bottom: 1.5rem; font-size: 1.4rem;">
+                <i class="fas fa-map-signs" style="color: var(--accent); margin-right: 0.5rem;"></i> Dedicated Learning Roadmap
+            </h3>
+            <div style="background: rgba(0,0,0,0.3); padding: 2rem; border-radius: 12px; border: 1px solid var(--glass-border);">
+                <ul class="roadmap-list" style="list-style-type: none; margin-left: 0;">
+                    {% for step in role.roadmap %}
+                        <li style="margin-bottom: 1.2rem; display: flex; align-items: flex-start; gap: 1rem;">
+                            <!-- Visual step circles -->
+                            <div style="min-width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #000; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; margin-top: 3px;">
+                                {{ loop.index }}
+                            </div>
+                            <!-- Extract logic -->
+                            {% set clean_step = step.split('.', 1)[-1].strip() if '.' in step.split(' ')[0] else step %}
+                            <label style="display: flex; align-items: flex-start; gap: 1rem; cursor: pointer;">
+                                <input type="checkbox" 
+                                       onclick="toggleProgress('{{ role_id }}', {{ loop.index }}, this.checked)"
+                                       style="margin-top: 6px; width: 18px; height: 18px; accent-color: var(--accent);"
+                                       {% if loop.index in completed_steps %}checked{% endif %}>
+                                <span style="color: var(--text-main); line-height: 1.5; font-size: 0.95rem; {% if loop.index in completed_steps %}text-decoration: line-through; opacity: 0.7;{% endif %}" id="step-text-{{ loop.index }}">
+                                    {{ clean_step }}
+                                </span>
+                            </label>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- External Learning References -->
+        <div>
+            <h3 class="card-title" style="margin-bottom: 1.5rem; font-size: 1.4rem;">
+                <i class="fas fa-external-link-square-alt" style="color: var(--accent); margin-right: 0.5rem;"></i> Essential External Links
+            </h3>
+            <div style="background: rgba(0,0,0,0.02); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                <ul class="link-list" style="margin: 0; padding: 0;">
+                    {% for link in role.links %}
+                        <li style="margin-bottom: 1.2rem; background: var(--card-bg); padding: 1rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                            <a href="{{ link.url }}" target="_blank" style="font-size: 1.05rem; display: flex; justify-content: space-between; align-items: center; color: var(--text-main); font-weight: 500;">
+                                <span><i class="fas fa-play-circle" style="color: var(--accent); margin-right: 0.5rem; font-size: 1.2rem;"></i> {{ link.title }}</span>
+                                <i class="fas fa-chevron-right" style="font-size: 0.8rem; opacity: 0.5;"></i>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Mock Interview Evaluator -->
+    <h3 class="card-title" style="margin-top: 4rem; margin-bottom: 1.5rem; font-size: 1.4rem;">
+        <i class="fas fa-robot" style="color: var(--accent); margin-right: 0.5rem;"></i> AI Mock Interview Evaluator
+    </h3>
+    <div style="background: rgba(99, 102, 241, 0.05); padding: 2rem; border-radius: 12px; border: 1px solid rgba(99, 102, 241, 0.2);">
+        <p style="font-weight: 600; color: var(--text-main); margin-bottom: 0.5rem;">Interview Question:</p>
+        <div style="font-size: 1.1rem; margin-bottom: 1.5rem; font-style: italic; color: var(--text-main);">
+            "{{ mock_question }}"
+        </div>
+        
+        <label for="mock_answer" style="display: block; font-weight: 500; font-size: 0.9rem; margin-bottom: 0.5rem;">Your Response:</label>
+        <textarea id="mock_answer" rows="4" style="width: 100%; padding: 0.75rem 1rem; border-radius: 6px; border: 1px solid var(--border-color); font-family: inherit; font-size: 0.95rem; resize: vertical;" placeholder="Type your answer here..."></textarea>
+        
+        <div style="margin-top: 1rem; display: flex; gap: 1rem; align-items: center;">
+            <button class="btn-primary" onclick="evaluateAnswer()">Evaluate Answer</button>
+            <span id="eval-loading" style="display: none; color: var(--text-muted); font-size: 0.9rem;"><i class="fas fa-spinner fa-spin"></i> Analyzing...</span>
+        </div>
+        
+        <div id="eval-result" style="display: none; margin-top: 1.5rem; padding: 1.5rem; background: #fff; border-radius: 8px; border-left: 4px solid var(--accent); box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+                <span id="result-score" style="font-size: 2rem; font-weight: 700; color: #16a34a;">85/100</span>
+                <strong>Solid approach!</strong>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">You mentioned the core concepts correctly, but try to provide more specific examples of your methodology using the STAR method.</p>
+        </div>
+    </div>
+    <div class="meta-info" style="margin-top: 4rem;">
+        <i class="fas fa-clock" style="color: var(--accent);"></i> Last Updated: <strong>{{ role.last_updated }}</strong>
+    </div>
+</div>
+{% endblock %}

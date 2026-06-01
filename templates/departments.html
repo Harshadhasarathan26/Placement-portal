@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Explore Departments | Placement Prep AI{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 2rem;">
+    <a href="{{ url_for('dashboard') }}" class="btn-outline" style="font-size: 0.9rem;">
+        <i class="fas fa-arrow-left"></i> Hub
+    </a>
+</div>
+
+<div class="welcome-header" style="text-align: left; margin-bottom: 2rem;">
+    <h1 style="font-size: 2.5rem;"><i class="fas fa-university"></i> Engineering Departments</h1>
+    <p>Select your department to explore top companies and placement roles tailored for you.</p>
+</div>
+
+<div class="grid">
+    {% for dept in departments %}
+    <a href="{{ url_for('department', dept=dept) }}" style="text-decoration: none;">
+        <div class="glass-card interactive" style="text-align: center; padding: 3rem 2rem;">
+            <i class="fas {% if dept == 'CSE' or dept == 'IT' %}fa-laptop-code{% elif dept == 'ECE' %}fa-microchip{% elif dept == 'EEE' %}fa-bolt{% else %}fa-cogs{% endif %}" style="font-size: 3rem; color: var(--accent); margin-bottom: 1.5rem;"></i>
+            <h3 class="card-title" style="font-size: 1.5rem; margin-bottom: 1rem;">{{ dept }} Engineering</h3>
+            <p class="card-desc">Explore carefully curated companies, roadmaps and roles for your branch.</p>
+            
+            <div style="margin-top: 1.5rem; color: var(--accent); font-size: 0.95rem; font-weight: 600;">
+                View Companies <i class="fas fa-arrow-right" style="margin-left: 0.5rem;"></i>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}

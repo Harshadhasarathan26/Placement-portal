@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Log In | Placement Prep AI{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="glass-card">
+        <h2 class="auth-title">Welcome Back</h2>
+        
+        <form action="{{ url_for('login') }}" method="POST">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="example@domain.com" required autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            
+            <button type="submit" class="btn-primary btn-block" style="margin-top: 1rem;">
+                <i class="fas fa-sign-in-alt"></i> Log In
+            </button>
+        </form>
+        
+        <div class="auth-links">
+            <p style="color: var(--text-muted)">Don't have an account? <a href="{{ url_for('signup') }}">Sign Up</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

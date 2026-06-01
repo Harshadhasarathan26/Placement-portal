@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Resume Analyzer | Placement Prep AI{% endblock %}
+
+{% block content %}
+<div class="welcome-header">
+    <h1><i class="fas fa-file-alt"></i> AI Resume Analyzer</h1>
+    <p>Upload your resume text to get an AI-powered score and tailored feedback for your target role.</p>
+</div>
+
+<div class="grid" style="grid-template-columns: 1fr;">
+    <div class="glass-card">
+        <form method="POST" action="{{ url_for('resume_tool') }}">
+            <div class="form-group">
+                <label for="target_role">Target Job Role</label>
+                <input type="text" id="target_role" name="target_role" placeholder="e.g. Software Engineer, Data Scientist" required>
+            </div>
+            <div class="form-group" style="margin-top: 1.5rem;">
+                <label for="resume_text">Paste Resume Text</label>
+                <textarea id="resume_text" name="resume_text" rows="8" placeholder="Paste the full text of your resume here..." style="width: 100%; padding: 0.75rem 1rem; border-radius: 6px; border: 1px solid var(--border-color); font-family: inherit; font-size: 0.95rem; resize: vertical;" required></textarea>
+            </div>
+            <button type="submit" class="btn-primary" style="margin-top: 1rem;"><i class="fas fa-robot"></i> Analyze Resume</button>
+        </form>
+    </div>
+
+    {% if analysis %}
+    <div class="glass-card" style="margin-top: 1rem; border-left: 4px solid var(--accent);">
+        <h2 style="margin-bottom: 1rem;"><i class="fas fa-chart-bar" style="color: var(--accent);"></i> Analysis Results</h2>
+        
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+            <div style="font-size: 3rem; font-weight: 700; color: {{ '#16a34a' if analysis.score > 70 else '#ea580c' }};">
+                {{ analysis.score }}<span style="font-size: 1.5rem; color: var(--text-muted);">/100</span>
+            </div>
+            <div style="flex: 1;">
+                <h4 style="margin-bottom: 0.25rem;">Overall Feedback</h4>
+                <p>{{ analysis.feedback }}</p>
+            </div>
+        </div>
+
+        {% if analysis.improvements %}
+        <h4 style="margin-bottom: 1rem;">Suggested Improvements</h4>
+        <ul class="link-list" style="border-top: none; padding-top: 0; margin-top: 0;">
+            {% for imp in analysis.improvements %}
+            <li style="display: flex; gap: 0.5rem; font-size: 0.95rem; line-height: 1.5;">
+                <i class="fas fa-exclamation-circle" style="color: #ea580c; margin-top: 0.25rem;"></i>
+                <span>{{ imp }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        
+        {% if analysis.ai_powered %}
+        <div class="badge" style="margin-bottom: 0; margin-top: 1rem;">
+            <i class="fas fa-magic"></i> AI Powered Feedback
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
